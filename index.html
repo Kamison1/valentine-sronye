@@ -10,18 +10,18 @@
   const yesSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b4b4b1f6d.mp3?filename=pop-94319.mp3");
   yesSound.load();
 
-  // Unlock audio on first interaction
+  // Unlock audio on first hover of ANY button
   function unlockSound() {
     yesSound.play().then(() => {
       yesSound.pause();
       yesSound.currentTime = 0;
     }).catch(() => {});
-    document.removeEventListener('mousemove', unlockSound);
-    document.removeEventListener('touchstart', unlockSound);
+    yesBtn.removeEventListener('mouseenter', unlockSound);
+    noBtn.removeEventListener('mouseenter', unlockSound);
   }
 
-  document.addEventListener('mousemove', unlockSound);
-  document.addEventListener('touchstart', unlockSound);
+  yesBtn.addEventListener('mouseenter', unlockSound);
+  noBtn.addEventListener('mouseenter', unlockSound);
 
   function moveNoButton() {
     const container = document.querySelector('.buttons');
