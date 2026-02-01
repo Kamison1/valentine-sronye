@@ -1,16 +1,55 @@
-<script>
-  const noBtn = document.getElementById('noBtn');
-  const yesBtn = document.getElementById('yesBtn');
-  const message = document.getElementById('message');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Will you be my Valentine?</title>
+  <style>
+    body {
+      background: #ffe6f2;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
 
-  let yesSize = 1;
+    h1 {
+      margin-top: 60px;
+      font-size: 40px;
+      color: #ff4d88;
+      text-shadow: 0 0 10px white;
+    }
 
-  // Make YES button shake
-  yesBtn.style.animation = "shake 0.4s infinite";
+    .buttons {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      margin-top: 40px;
+    }
 
-  // Shake animation
-  const style = document.createElement('style');
-  style.innerHTML = `
+    button {
+      padding: 15px 30px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background-color: #ff4d88;
+      color: white;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      animation: shake 0.4s infinite;
+    }
+
+    #noBtn {
+      background-color: #999;
+      color: white;
+      left: 20%;
+      top: 50%;
+    }
+
     @keyframes shake {
       0% { transform: translate(-50%, -50%) rotate(0deg); }
       25% { transform: translate(-48%, -52%) rotate(2deg); }
@@ -18,68 +57,102 @@
       75% { transform: translate(-49%, -51%) rotate(1deg); }
       100% { transform: translate(-50%, -50%) rotate(0deg); }
     }
-  `;
-  document.head.appendChild(style);
 
-  function moveNoButton() {
-    const container = document.querySelector('.buttons');
-    const rect = container.getBoundingClientRect();
-
-    const padding = 40;
-
-    const maxX = rect.width - padding;
-    const maxY = rect.height - padding;
-
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    noBtn.style.left = randomX + 'px';
-    noBtn.style.top = randomY + 'px';
-
-    // Make YES grow faster
-    yesSize += 0.5;
-    yesBtn.style.transform = `translate(-50%, -50%) scale(${yesSize})`;
-  }
-
-  noBtn.addEventListener('mouseenter', moveNoButton);
-  noBtn.addEventListener('click', moveNoButton);
-
-  function createHeart() {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.textContent = '❤️';
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (20 + Math.random() * 20) + 'px';
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 3000);
-  }
-
-  // Add sound
-  const yesSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b4b4b1f6d.mp3?filename=pop-94319.mp3");
-
-  yesBtn.addEventListener('click', () => {
-    yesSound.play();
-
-    message.textContent = "Yay! I knew you'd say yes ❤️";
-
-    for (let i = 0; i < 40; i++) {
-      setTimeout(createHeart, i * 80);
+    .heart {
+      position: fixed;
+      animation: fall 3s linear forwards;
     }
 
-    // Big final message
-    setTimeout(() => {
-      const bigMsg = document.createElement('div');
-      bigMsg.textContent = "Sronye + Jean‑Claude = ❤️";
-      bigMsg.style.position = "fixed";
-      bigMsg.style.top = "50%";
-      bigMsg.style.left = "50%";
-      bigMsg.style.transform = "translate(-50%, -50%)";
-      bigMsg.style.fontSize = "48px";
-      bigMsg.style.color = "#ff4d88";
-      bigMsg.style.fontWeight = "bold";
-      bigMsg.style.textShadow = "0 0 20px white";
-      document.body.appendChild(bigMsg);
-    }, 3500);
-  });
-</script>
+    @keyframes fall {
+      0% { transform: translateY(-10vh); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #ff4d88;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Will you be my Valentine? ❤️</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div id="message"></div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const message = document.getElementById('message');
+
+    let yesSize = 1;
+
+    function moveNoButton() {
+      const container = document.querySelector('.buttons');
+      const rect = container.getBoundingClientRect();
+
+      const padding = 40;
+      const maxX = rect.width - padding;
+      const maxY = rect.height - padding;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      noBtn.style.left = randomX + 'px';
+      noBtn.style.top = randomY + 'px';
+
+      yesSize += 0.5;
+      yesBtn.style.transform = `translate(-50%, -50%) scale(${yesSize})`;
+    }
+
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('click', moveNoButton);
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.textContent = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (20 + Math.random() * 20) + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 3000);
+    }
+
+    const yesSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b4b4b1f6d.mp3?filename=pop-94319.mp3");
+
+    yesBtn.addEventListener('click', () => {
+      yesSound.play();
+
+      message.textContent = "Yay! I knew you'd say yes ❤️";
+
+      for (let i = 0; i < 40; i++) {
+        setTimeout(createHeart, i * 80);
+      }
+
+      setTimeout(() => {
+        const bigMsg = document.createElement('div');
+        bigMsg.textContent = "She said YES! ❤️ Sronye + JC ❤️";
+        bigMsg.style.position = "fixed";
+        bigMsg.style.top = "50%";
+        bigMsg.style.left = "50%";
+        bigMsg.style.transform = "translate(-50%, -50%)";
+        bigMsg.style.fontSize = "48px";
+        bigMsg.style.color = "#ff4d88";
+        bigMsg.style.fontWeight = "bold";
+        bigMsg.style.textShadow = "0 0 20px white";
+        document.body.appendChild(bigMsg);
+      }, 3500);
+    });
+  </script>
+
+</body>
+</html>
