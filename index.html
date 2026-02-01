@@ -50,6 +50,7 @@
       top: 50%;
     }
 
+    /* Soft shake (only activated later) */
     @keyframes softShake {
       0% { transform: translate(-50%, -50%) rotate(0deg) scale(var(--scale)); }
       25% { transform: translate(-49%, -51%) rotate(1deg) scale(var(--scale)); }
@@ -68,6 +69,7 @@
       100% { transform: translateY(100vh); opacity: 0; }
     }
 
+    /* Final overlay */
     #overlay {
       position: fixed;
       top: 0;
@@ -109,23 +111,6 @@
     let yesScale = 1;
     let shakeActivated = false;
 
-    // Preload sound
-    const yesSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b4b4b1f6d.mp3?filename=pop-94319.mp3");
-    yesSound.load();
-
-    // Unlock audio on first hover
-    function unlockSound() {
-      yesSound.play().then(() => {
-        yesSound.pause();
-        yesSound.currentTime = 0;
-      }).catch(() => {});
-      yesBtn.removeEventListener('mouseenter', unlockSound);
-      noBtn.removeEventListener('mouseenter', unlockSound);
-    }
-
-    yesBtn.addEventListener('mouseenter', unlockSound);
-    noBtn.addEventListener('mouseenter', unlockSound);
-
     function moveNoButton() {
       const container = document.querySelector('.buttons');
       const rect = container.getBoundingClientRect();
@@ -163,6 +148,8 @@
 
       setTimeout(() => heart.remove(), 3000);
     }
+
+    const yesSound = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_7b4b4b1f6d.mp3?filename=pop-94319.mp3");
 
     yesBtn.addEventListener('click', () => {
       yesSound.play();
